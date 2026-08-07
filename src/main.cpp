@@ -56,7 +56,6 @@ double ReadFuelLevel() {
   double sender_resistance = bus_voltage / (current_mA / 1000);
   double fuel_level_percent = fuel_slope * (sender_resistance - fuel_min_resistance);
   #ifdef SERIAL_DEBUG
-  // std::string s1 
   Serial.println("Fuel Data:");
   Serial.println("\tVoltage:\t| " + String(bus_voltage) + "V;\r\n\tShunt Voltage:\t| " + shunt_mV + "mV;\r\n\tSource Voltage:\t| " + load_voltage + "V;\r\n\tCurrent:\t| " + current_mA + "mA;\r\n\tResistance:\t| " + sender_resistance + "ohm;\r\n\tFuel Level:\t| " + fuel_level_percent + "\%.\n");
   #endif
@@ -211,7 +210,9 @@ void setup() {
   );
   NMEA2000.SetForwardStream(forward_stream);
   NMEA2000.SetMode(tNMEA2000::N2km_ListenAndNode);
+  #ifdef SERIAL_DEBUG
   NMEA2000.SetForwardType(tNMEA2000::fwdt_Text);
+  #endif
   NMEA2000.SetForwardOwnMessages(true);
   NMEA2000.SetMsgHandler(HandleStreamN2kMsg);
   NMEA2000.SetOnOpen(onN2kOpen);
